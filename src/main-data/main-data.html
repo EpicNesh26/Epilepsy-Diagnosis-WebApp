@@ -84,9 +84,9 @@
                                 <option value="other">Other</option>
                             </select>
 
-                            <label class="block mt-4 xs:mt-2 mb-2 xs:text-xs md:text-base 5xl:text-lg" for="eeg-file">Upload EEG File:</label>
+                            <label class="block mt-4 xs:mt-2 mb-2 xs:text-xs md:text-base 5xl:text-lg" for="eeg-file">Upload EEG File (.npy format):</label>
                             <input type="file" id="eeg-file" class="w-full p-2 border border-gray-300 rounded"
-                                accept=".txt,.csv,.edf" required />
+                                accept=".npy" required />
 
                             <button type="submit"
                                 class="mt-4 xs:mt-2 md:mt-2 w-full  hover:bg-blue-700 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-lg hover:bg-gradient-to-l transition duration-300">Submit</button>
@@ -202,27 +202,47 @@
 
 
         <script>
-            document.querySelector('.diagnosis-form').addEventListener('submit', function (e) {
+            document.querySelector('.diagnosis-form').addEventListener('submit', async function (e) {
                 e.preventDefault(); // Prevent the default form submission
 
                 // Gather input values
-                const name = document.getElementById('name').value;
-                const age = document.getElementById('age').value;
-                const gender = document.getElementById('gender').value;
-                const eegFile = document.getElementById('eeg-file').files[0];
-
+                // const name = document.getElementById('name').value;
+                // const age = document.getElementById('age').value;
+                // const gender = document.getElementById('gender').value;
+                
                 // Placeholder for processing EEG file and generating output
                 // Here you would typically process the EEG file, make API calls, etc.
+                
+                const fileInput = document.getElementById('eeg-file');
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0])
 
-                // Display output (this is just a sample output, replace with actual logic)
-                const output = document.querySelector('.output');
-                const outputText = document.querySelector('.output-text');
-                outputText.textContent = `Name: ${name}, Age: ${age}, Gender: ${gender}. EEG file: ${eegFile.name} uploaded successfully.`;
-                output.classList.remove('hidden'); // Show output section
+                try {
+                    const response = await fetch('http://localhost:5000/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
 
-                // Show feedback section
-                const feedbackSection = document.querySelector('.feedback-section');
-                feedbackSection.classList.remove('hidden'); // Show feedback section
+                    const data = await response.json();
+
+                    // display response data
+                    const outputText = document.querySelector('.output-text');
+                    outputText.textContent = `Diagnosis Result: ${data.prediction}`
+
+                    const output = document.querySelector('.output');
+                    output.classList.remove('hidden');
+
+                    // Show feedback section
+                    const feedbackSection = document.querySelector('.feedback-section');
+                    feedbackSection.classList.remove('hidden'); // Show feedback section
+
+
+                } catch (error) {
+                    console.error('Error: ', error);
+                    const outputText = document.querySelector('.output-text');
+                    outputText.textContent = 'An error occurred while submitting the form.'
+                }
+
             });
 
             document.getElementById('submit-feedback').addEventListener('click', function () {
