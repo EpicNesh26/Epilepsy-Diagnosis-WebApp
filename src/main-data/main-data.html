@@ -84,9 +84,9 @@
                                 <option value="other">Other</option>
                             </select>
 
-                            <label class="block mt-4 xs:mt-2 mb-2 xs:text-xs md:text-base 5xl:text-lg" for="eeg-file">Upload EEG File:</label>
+                            <label class="block mt-4 xs:mt-2 mb-2 xs:text-xs md:text-base 5xl:text-lg" for="eeg-file">Upload EEG File (.npy format):</label>
                             <input type="file" id="eeg-file" class="w-full p-2 border border-gray-300 rounded"
-                                accept=".txt,.csv,.edf" required />
+                                accept=".npy" required />
 
                             <button type="submit"
                                 class="mt-4 xs:mt-2 md:mt-2 w-full  hover:bg-blue-700 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-lg hover:bg-gradient-to-l transition duration-300">Submit</button>
@@ -200,26 +200,58 @@
         </div>
 
         <script>
-            document.getElementById('diagnosis-form').addEventListener('submit', async (event) => {
-                event.preventDefault(); // Prevent the default form submission
-        
-                const formData = new FormData(event.target); // Create FormData from the form
-        
+
+            document.querySelector('.diagnosis-form').addEventListener('submit', async function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                // Gather input values
+                // const name = document.getElementById('name').value;
+                // const age = document.getElementById('age').value;
+                // const gender = document.getElementById('gender').value;
+                
+                // Placeholder for processing EEG file and generating output
+                // Here you would typically process the EEG file, make API calls, etc.
+                
+                const fileInput = document.getElementById('eeg-file');
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0])
+
                 try {
                     const response = await fetch('http://localhost:5000/upload', {
                         method: 'POST',
-                        body: formData,
+                        body: formData
                     });
-        
-                    const result = await response.json();
-                    // Update the output text with the response from the server
-                    document.getElementById('output-text').innerHTML = `
-                        <strong>File Uploaded:</strong> ${result.filename}<br>
-                        <strong>Processed Data:</strong> ${result.processed_data.join(', ')}
-                    `;
+
+                    const data = await response.json();
+
+                    // display response data
+                    const outputText = document.querySelector('.output-text');
+                    outputText.textContent = `Diagnosis Result: ${data.prediction}`
+
+                    const output = document.querySelector('.output');
+                    output.classList.remove('hidden');
+
+                    // Show feedback section
+                    const feedbackSection = document.querySelector('.feedback-section');
+                    feedbackSection.classList.remove('hidden'); // Show feedback section
+
+
                 } catch (error) {
-                    document.getElementById('output-text').innerHTML = `<span class="text-red-600">Error: ${error.message}</span>`;
+                    console.error('Error: ', error);
+                    const outputText = document.querySelector('.output-text');
+                    outputText.textContent = 'An error occurred while submitting the form.'
                 }
+
+            });
+
+            document.getElementById('submit-feedback').addEventListener('click', function () {
+                const feedbackText = document.getElementById('feedback').value;
+                const feedbackResponse = document.querySelector('.feedback-response');
+
+                // Here, you could send feedback to a server or process it as needed
+                feedbackResponse.textContent = "Thank you for your feedback! We appreciate your input.";
+                document.getElementById('feedback').value = ''; // Clear the textarea
+
             });
         </script>
 </body>
