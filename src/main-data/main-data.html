@@ -58,7 +58,7 @@
             </div>
             <!-- Form -->
             <div class="form w-full">
-                <div class="main2 h-[90vh] md:h-[100vh] 2xl:h-[80vh] 5xl:h-[70vh] bg-[#0A0A0A] text-white mt-[-12px] rounded-xl p-6 xs:p-3 2xl:p-6 z-10 relative">
+                <div class="main2 h-[90vh] md:h-[100vh] xl:h-[110vh] 2xl:h-[80vh] 4xl:h-[60vh] 5xl:h-[60vh] bg-[#0A0A0A] text-white mt-[-12px] rounded-xl p-6 xs:p-3 2xl:p-6 z-10 relative">
 
                     <div class="everything flex w-[85%] xs:w-[90%] flex-col m-auto">
                         <h2 class="text-3xl xs:text-sm md:text-xl xl:text-3xl 5xl:text-4xl font-bold mb-2 text-center">Get Your Diagnosis</h2>
@@ -96,8 +96,8 @@
 
                 <div class="main2 bg-white mt-5">
                     <div class="output   text-black rounded-xl p-4 shadow-lg h-[40vh]  ">
-                        <h2 class="text-lg xs:text-sm md:text-lg 5xl:text-xl font-bold mb-2">Diagnosis Output</h2>
-                        <p class="output-text xs:text-xs md:text-base 5xl:text-xl">Your detailed diagnosis output will appear here after you submit the
+                        <h2 class="text-2xl xs:text-sm md:text-3xl 5xl:text-xl font-bold mb-2">Diagnosis Output</h2>
+                        <p class="output-text xs:text-xs md:text-base xl:text-xl 5xl:text-xl">Your detailed diagnosis output will appear here after you submit the
                             form.</p>
                     </div>
                 </div>
@@ -105,8 +105,8 @@
 
                 <div class="feedback">
                     <div class="feedback-section  bg-white mt-5 mb-5   text-black rounded-xl  p-4 shadow-md ">
-                        <h2 class="text-lg xs:text-sm font-bold mb-2 md:text-lg 5xl:text-xl">We Value Your Feedback</h2>
-                        <p class="mb-4 xs:text-xs md:text-base 5xl:text-lg">Your feedback is essential for us to grow and improve our AI model. Please share
+                        <h2 class="text-lg xs:text-sm font-bold mb-2 md:text-3xl 5xl:text-xl">We Value Your Feedback</h2>
+                        <p class="mb-4 xs:text-xs md:text-xl 5xl:text-lg">Your feedback is essential for us to grow and improve our AI model. Please share
                             your thoughts about the diagnosis, and help us serve you better!</p>
                         <textarea id="feedback" rows="4" class="w-full p-2 border border-gray-300 rounded"
                             placeholder="Share your thoughts about the diagnosis..." required></textarea>
@@ -122,7 +122,7 @@
 
                 <div class="left w-1/2 xs:w-[100%] md:w-1/2 flex flex-col h-[60vh] xs:h-[30vh] md:h-[60vh] justify-between xs:justify-normal md:justify-between">
                     <div class="name text-3xl xs:text-xs md:text-lg xl:text-xl 4xl:text-3xl 5xl:text-3xl">
-                        TBD
+                        Re:Eval Epilepsy
                     </div>
                     <div class="text text-sm xs:text-xs md:text-sm 4xl:text-lg 5xl:text-lg w-[70%] xs:w-[100%] md:w-[70%]">
                         © 2024 TBD. All rights reserved. Our mission is to provide reliable information and
@@ -199,9 +199,8 @@
 
         </div>
 
-
-
         <script>
+
             document.querySelector('.diagnosis-form').addEventListener('submit', async function (e) {
                 e.preventDefault(); // Prevent the default form submission
 
@@ -252,9 +251,9 @@
                 // Here, you could send feedback to a server or process it as needed
                 feedbackResponse.textContent = "Thank you for your feedback! We appreciate your input.";
                 document.getElementById('feedback').value = ''; // Clear the textarea
+
             });
         </script>
-
 </body>
 
 </script>
